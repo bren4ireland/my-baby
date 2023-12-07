@@ -1,0 +1,7 @@
+name: Brendan
+
+on:[push]
+jobs;
+ job1:
+ name:job1
+ runs-on:ubuntu-latest
