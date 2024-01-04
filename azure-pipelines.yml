@@ -1,33 +1,16 @@
-# Universal Windows Platform
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-# Build a Universal Windows Platform project using Visual Studio.
-# Add steps that test and distribute an app, save build artifacts, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+- master
 
 pool:
-  vmImage: 'windows-latest'
-
-variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x86|x64|ARM'
-  buildConfiguration: 'Release'
-  appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  vmImage: 'ubuntu-latest'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: UsePythonVersion@0
   inputs:
-    restoreSolution: '$(solution)'
+    versionSpec: '3.x'  # Specify the Python version you need
 
-- task: VSBuild@1
-  inputs:
-    platform: 'x86'
-    solution: '$(solution)'
-    configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+- script: |
+    # Your Python script commands go here
+    python -m pip install -r requirements.txt  # Install any required packages
+    python your_script.py  # Replace with the actual name of your Python script
+  displayName: 'Run Python Script'
